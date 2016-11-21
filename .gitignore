@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 db.sqlite3
 o_saint/config.py
+o_saint/secret_key.py
 site_scan/templates/SSL/*
 site_scan/templates/SSL/!.gitignore
 __pycache__/
