@@ -214,11 +214,15 @@ def main():
 	django.setup()
 	from site_scan.models import SiteScan
 	s = SiteScan.objects.get(pk=id)
-	scan_site(site, id, s)
-	whoischeck(site, id, s)
-	emailhunter(site, id, s)
-	dns_scan(site, id, s)
-	builtwith(site, id, s)
+	try:
+		scan_site(site, id, s)
+		whoischeck(site, id, s)
+		emailhunter(site, id, s)
+		dns_scan(site, id, s)
+		builtwith(site, id, s)
+	except:
+		s.Scan_Completed='Failed'
+		s.save()
 
 if __name__ == "__main__":
 	main()

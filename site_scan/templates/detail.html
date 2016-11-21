@@ -5,7 +5,11 @@
 </head>
 <body>
 <h1 align="center">{{ scan.Site_Name }}</h1>
-{% if scan.Scan_Completed != "Completed" %}
+{% if scan.Scan_Completed != "Running" and scan.Scan_Completed != "Completed" %}
+<h2 align="center">Scan {{ scan.Scan_Completed }}</h2>
+<h3 align="center">Any results captured before the failure are below. Please look at terminal running the server for error</h3>
+
+{% elif scan.Scan_Completed == "Running" %}
 <h2 align="center">Scan is {{ scan.Scan_Completed }}</h2>
 <h3 align="center">If scan shows running longer then 30 minutes then something went wrong</h3>
 {% endif %}

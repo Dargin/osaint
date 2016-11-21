@@ -23,8 +23,12 @@ OSINT Tool
     email hunter = https://hunter.io/api</br>
     Builtwith = https://api.builtwith.com/</br>
     fullcontact = https://www.fullcontact.com/developer/docs/</br>
+	Click on "Sign up" and create your account. Once done, got to https://api.fullcontact.com again</br>    
+	Click on "Sign In" then developer portal. activate your account for the API function and get your API key.
     
 8) setup database by running these two commands:</br>
+    python3 manage.py makemigrations</br>
+    python3 manage.py migrate</br>
     python3 manage.py makemigrations site_scan</br>
     python3 manage.py migrate site_scan
     
