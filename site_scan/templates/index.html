@@ -1,0 +1,23 @@
+{% block content %}	
+	<h1 style="font-size: 400%;" align="center">O-SaINT</h1>
+</br>
+<center>
+<form id="ds-search-form" method="POST" action="search">
+<input name="site_to_scan" id='site-search' placeholder="" type="text"></input>
+{% csrf_token %}
+</form>
+</center>
+
+<h3 align="center">Enter the domain name in the above text box and wait. Refresh page coming soon.</h3>
+</br>
+
+<center>
+<form id="ds-search-form" method="POST" action="search">
+<input name="email" id='email' placeholder="" type="text"></input>
+{% csrf_token %}
+</form>
+</center>
+<h3 align="center">Enter the email in the above text box and wait. Refresh page coming soon.</h3>
+
+<p align="center"><a href="/o_saint/history">Previous Site Scans</a></p>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% autoescape off %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+</head>
+<body>
+
+<style type="text/css">
+.datagrid table { border-collapse: collapse; text-align: left; width: 100%; } 
+.datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
+.datagrid table td, .datagrid table th { padding: 3px 10px; }.datagrid table thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 20px; font-weight: bold; border-left: 1px solid #0070A8; } 
+.datagrid table thead th:first-child { border: none; }
+.datagrid table tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 15px;font-weight: normal;vertical-align: top }
+.datagrid table tbody 
+.alt td { background: #E1EEf4; color: #00557F; }
+.datagrid table tbody td:first-child { border-left: none; }
+.datagrid table tbody tr:last-child td { border-bottom: none; }
+.datagrid table tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;}
+</style>
+
+<center>
+{% if results.fullname != "0" %}
+<div class="datagrid"><table>
+<thead><tr><th colspan="2" align="center">User Information</th></tr></thead>
+
+<tbody>
+<tr><td width="30%">Name</td>
+<td>{{ results.fullname }}</td></tr>
+
+<tr class="alt"><td width="30%">Gender</td>
+<td>{{ results.gender }}</td></tr>
+
+<tr><td width="30%">Organizations</td>
+<td>
+{% for org in results.organization_set.all %}
+{{ org.name }}  {{ org.title }}
+</br>Start Date: {{ org.startDate }}
+</br>Current: {{ org.current }}
+</br></br>
+{% endfor %}</td></tr>
+
+<tr class="alt"><td width="30%">Digital Footprint/Interest</td>
+<td>{{ results.digitalfootprint }}</td></tr>
+
+<tr><td width="30%">Social Profiles</td>
+<td>
+{% for profiles in results.socialp_set.all %}
+{{ profiles.stype }}</br>
+URL: <a href="{{ profiles.url }}">{{ profiles.url }}</a></br>
+Following: {{ profiles.following }}
+Followers: {{ profiles.followers }}</br></br>
+{% endfor %}
+</td></tr>
+
+<tr class="alt"><td width="30%">Photos</td>
+<td>
+	{% for photos in results.photo_set.all %}
+	{{ photos.ptype }}</br><img src="{{ photos.purl }}" height="100" width="100"></br></br>
+	{% endfor %}
+</td></tr>
+
+</tbody>
+</table>
+</div>
+
+{% else %}
+	<h1> No data returned from FullContact </h1>
+{% endif %}
+</br></br>
+
+<div class="datagrid"><table>
+<thead><tr><th colspan="2" align="center">Additional Information</th></tr></thead>
+
+<tbody>
+<tr><td>Links Found</td>
+<td>{% for url in results.links_set.all %}
+	<a href="{{ url.url }}">{{ url.url }}</br></br>
+{% endfor %}</td></tr>
+
+</tbody>
+</table>
+</div>
+</br>
+
+</body>
+</html>
+{% endblock %}
+{% endautoescape %}

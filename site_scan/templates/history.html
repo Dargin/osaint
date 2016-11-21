@@ -1,0 +1,9 @@
+{% if latest_scan_list %}
+    <ul>
+    {% for scan in latest_scan_list %}
+        <li><a href="/o_saint/{{ scan.id }}/">{{ scan }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}

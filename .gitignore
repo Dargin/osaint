@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+db.sqlite3
+o_saint/config.py
+site_scan/templates/SSL/*
+site_scan/templates/SSL/!.gitignore
+__pycache__/
+site_scan/migrations/*
+site_scan/__*
+o_saint/__*
+o_saint/__init__.py
+o_saint/__init__.pyc
+site_scan/__init__.py
+site_scan/__init__.pyc
+*.pyc

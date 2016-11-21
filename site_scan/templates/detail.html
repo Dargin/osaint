@@ -1,0 +1,213 @@
+{% autoescape off %}
+{% block content %}
+<head>
+<META HTTP-EQUIV="refresh" CONTENT="5">
+</head>
+<body>
+<h1 align="center">{{ scan.Site_Name }}</h1>
+{% if scan.Scan_Completed != "Completed" %}
+<h2 align="center">Scan is {{ scan.Scan_Completed }}</h2>
+<h3 align="center">If scan shows running longer then 30 minutes then something went wrong</h3>
+{% endif %}
+
+<p id="email"></p>
+<style type="text/css">
+.datagrid table { border-collapse: collapse; text-align: left; width: 100%; } 
+.datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
+.datagrid table td, .datagrid table th { padding: 3px 10px; }.datagrid table thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 20px; font-weight: bold; border-left: 1px solid #0070A8; } 
+.datagrid table thead th:first-child { border: none; }
+.datagrid table tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 15px;font-weight: normal;vertical-align: top }
+.datagrid table tbody 
+.alt td { background: #E1EEf4; color: #00557F; }
+.datagrid table tbody td:first-child { border-left: none; }
+.datagrid table tbody tr:last-child td { border-bottom: none; }
+.datagrid table tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;}
+</style>
+
+
+<center>
+<div class="datagrid"><table>
+<thead><tr><th colspan="2" align="center">WhoIs Information</th></tr></thead>
+
+<tbody>
+<tr><td width="30%">Domain Information</td>
+<td><b>Domains:</b> {{ scan.WhoIsDomain }}
+	</br><b>Name Servers:</b> {{ scan.WhoIsNameServer }}
+	</br><b>Whois Server:</b> {{ scan.WhoIsWServer }}
+	</br><b>Status:</b> {{ scan.WhoIsStatus }}
+	</br><b>DNS Sec:</b> {{ scan.WhoIsDNSSec }}
+	</br><b>Org:</b> {{ scan.WhoIsOrg }}
+	</br><b>Registrar:</b> {{ scan.WhoIsRegistrar }}
+	</br><b>Referral URL:</b> {{ scan.WhoIsReferral }}</td></tr>
+
+<tr class="alt"><td width="30%">Address</td>
+<td><b>Name:</b> {{ scan.WhoIsName }}
+	</br>{{ scan.WhoIsAddress }}
+	</br>{{ scan.WhoIsCity }} {{ scan.WhoIsState }}, {{ scan.WhoIsZip }}
+	</br>{{ scan.WhoIsCountry }}</td></tr>
+
+</tbody>
+</table>
+</div>
+</br>
+
+<div class="datagrid"><table>
+<thead><tr><th colspan="2" align="center">SSL Information</th></tr></thead>
+
+<tbody>
+<tr><td width="30%">SSL Hostname</td>
+<td>{{ scan.SSL_SName }}</td>
+</tr>
+
+<tr class="alt"><td>SSL Grade</td>
+<td>{{ scan.SSL_Grade }}</td></tr>
+
+<tr><td>SSL IP</td>
+<td>{{ scan.SSL_IP }}</td>
+</tr>
+
+<tr class="alt"><td>SSL Port</td>
+<td>{{ scan.SSL_Port }}</td></tr>
+
+<tr><td>SSL Server Sig</td>
+<td>{{ scan.SSL_ServSig }}</td>
+</tr>
+
+<tr class="alt"><td>SSL Compliance</td>
+<td><b>PCI:</b> {{ scan.SSL_PCI }}</br>
+		<b>HIPAA:</b> {{ scan.SSL_HIPAA }}</br>
+		<b>NIST:</b> {{ scan.SSL_NIST }}</br></td></tr>
+
+<tr><td>Full SSL Information</td>
+<td><a href="/o_saint/SSL/{{ scan.id }}/">{{ scan }}</td>
+</tr>
+</tbody>
+</table>
+</div>
+</br>
+</br>
+
+<div class="datagrid"><table>
+<thead><tr><th colspan="2" align="center">Email Information</th></tr></thead>
+
+<tbody>
+<tr><td width="30%">Email Pattern</td>
+<td>{{ scan.EmailPattern }}</td></tr>
+
+<tr class="alt"><td width="30%">All Emails</td>
+<td><ul>
+	{% for emails in scan.emails_set.all|dictsort:"email" %}
+		<li><a href="../email_detail/?email={{ emails.email }}&id={{ scan.id }}">{{ emails.email }}</li>
+	{% endfor %}
+    </ul></td></tr>
+
+</tbody>
+</table>
+</div>
+</br>
+
+<div class="datagrid"><table>
+<thead><tr><th colspan="2" align="center">DNS Information</th></tr></thead>
+
+<tbody>
+<tr><td width="30%">SOA Records</td>
+<td><ul>
+	{% for dns in scan.dns_set.all|dictsort:"name" %}
+		{% if dns.record == "SOA" %}
+			<li>{{ dns.name }} {{ dns.address }}</li>
+		{% endif %}
+	{% endfor %}
+</ul></td></tr>
+
+<tr class="alt"><td width="30%">NS Records</td>
+<td><ul>
+	{% for dns in scan.dns_set.all|dictsort:"name" %}
+		{% if dns.record == "NS" %}
+			<li>{{ dns.name }} {{ dns.address }}</li>
+		{% endif %}
+	{% endfor %}
+</ul>
+</td></tr>
+
+<tr><td width="30%">MX Records</td>
+<td><ul>
+	{% for dns in scan.dns_set.all|dictsort:"name" %}
+		{% if dns.record == "MX" %}
+			<li>{{ dns.name }} {{ dns.address }}</li>
+		{% endif %}
+	{% endfor %}
+</ul></td></tr>
+
+<tr class="alt"><td width="30%">SRV Records</td>
+<td><ul>
+	{% for dns in scan.dns_set.all|dictsort:"name" %}
+		{% if dns.record == "SRV" %}
+			<li>{{ dns.name }} {{ dns.address }}</li>
+		{% endif %}
+	{% endfor %}
+</ul>
+</td></tr>
+
+<tr><td width="30%">A Records</td>
+<td><ul>
+	{% for dns in scan.dns_set.all|dictsort:"name" %}
+		{% if dns.record == "A" %}
+			<li>{{ dns.name }} {{ dns.address }}</li>
+		{% endif %}
+	{% endfor %}
+</ul></td></tr>
+
+<tr class="alt"><td width="30%">CNAME Records</td>
+<td><ul>
+	{% for dns in scan.dns_set.all|dictsort:"name" %}
+		{% if dns.record == "CNAME" %}
+			<li>{{ dns.name }} {{ dns.address }}</li>
+		{% endif %}
+	{% endfor %}
+</ul>
+</td></tr>
+
+<tr><td width="30%">TXT Records</td>
+<td><ul>
+	{% for dns in scan.dns_set.all|dictsort:"name" %}
+		{% if dns.record == "TXT" %}
+			<li>{{ dns.name }} {{ dns.address }}</li>
+		{% endif %}
+	{% endfor %}
+</ul></td></tr>
+
+<tr class="alt"><td width="30%">Found CIDRs</td>
+<td><ul>
+	{% for arin in scan.arin_set.all|dictsort:"netname" %}
+		<li>{{ arin.netname }} {{ arin.cidr }}</li>
+	{% endfor %}
+</ul>
+</td></tr>
+
+</tbody>
+</table>
+</div>
+</br>
+
+<div class="datagrid"><table>
+<thead><tr><th>Site</th>
+    <th>Type</th>
+    <th>Name</th>
+    <th>Description</th></tr></thead>
+
+<tbody>
+{% for domain in scan.builtwith_set.all|dictsort:"subdomain" %}
+
+  <tr class="{% cycle ' ' 'alt' as rowcolors %}">
+    <td>{{ domain.subdomain }}.{{ domain.domain}}</td>
+    <td>{{ domain.tag }}</td>
+    <td>{{ domain.name }}</td>
+    <td>{{ domain.description }}</td>
+  </tr>
+{% endfor %}
+
+</center>
+
+</body>
+{% endblock %}
+{% endautoescape %}
