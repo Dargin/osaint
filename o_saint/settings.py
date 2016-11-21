@@ -9,14 +9,20 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
+def generate_secret_key(filename):
+	from django.utils.crypto import get_random_string
+	chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+	key = get_random_string(50, chars)
+	f = open(filename, 'w+')
+	f.write("SECRET_KEY='%s'" % key)
 
 import os
 try:
-    from secret_key import *
+	from secret_key import *
 except ImportError:
-    SETTINGS_DIR=os.path.abspath(os.path.dirname(__file__))
-    generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
-    from secret_key import *
+	SETTINGS_DIR= os.getcwd()
+	generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
+	from secret_key import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
