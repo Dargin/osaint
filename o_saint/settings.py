@@ -17,6 +17,7 @@ def generate_secret_key(filename):
 	f.write("SECRET_KEY='%s'" % key)
 
 import os
+
 try:
 	from secret_key import *
 except ImportError:
@@ -36,7 +37,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
