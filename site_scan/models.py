@@ -8,7 +8,7 @@ from django.utils import timezone
 class SiteScan(models.Model):
 	Site_Name = models.CharField(max_length=200)
 	Scan_Date = models.DateTimeField('date scanned')
-	Scan_Completed = models.CharField(max_length=10, default='running')
+	Scan_Completed = models.CharField(max_length=10, default='Running')
 	SSL_Grade = models.CharField(max_length=3, default=0)
 	SSL_SName = models.CharField(max_length=200, default=0)
 	SSL_IP = models.CharField(max_length=16, default=0)
@@ -38,6 +38,7 @@ class SiteScan(models.Model):
 	WhoIsAddress = models.CharField(max_length=200, default=0)
 	EmailPattern = models.CharField(max_length=50, default=0)
 	EmailsAll = models.CharField(max_length=10000, default=0)
+	Traceback = models.CharField(max_length=10000, default=0)
 	def __str__(self):
 		return self.Site_Name
 	def was_scanned_recently(self):

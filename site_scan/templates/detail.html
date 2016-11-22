@@ -4,9 +4,10 @@
 <META HTTP-EQUIV="refresh" CONTENT="5">
 </head>
 <body>
-<h1 align="center">{{ scan.Site_Name }}</h1>
+<h1 align="center" color=blue>{{ scan.Site_Name }}</h1>
 {% if scan.Scan_Completed != "Running" and scan.Scan_Completed != "Completed" %}
 <h2 align="center">Scan {{ scan.Scan_Completed }}</h2>
+<h3 align="center">Error: {{ scan.Traceback }}</h3>
 <h3 align="center">Any results captured before the failure are below. Please look at terminal running the server for error</h3>
 
 {% elif scan.Scan_Completed == "Running" %}
@@ -26,6 +27,8 @@
 .datagrid table tbody td:first-child { border-left: none; }
 .datagrid table tbody tr:last-child td { border-bottom: none; }
 .datagrid table tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;}
+h1 { color: #CEF0D4; font-family: 'Rouge Script', cursive; font-size: 50px; font-weight: normal; line-height: 48px; margin: 0 0 50px; text-align: center; text-shadow: 1px 1px 2px #082b34; }
+h2 { color: #a7e8f8; font-family: 'Julius Sans One', sans-serif; font-size: 22px; font-weight: bold; line-height: 32px; margin: 0 0 24px; text-shadow: 1px 1px 1px #082b34; }
 </style>
 
 

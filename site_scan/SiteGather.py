@@ -1,4 +1,4 @@
-import sys, os, re
+import sys, os, re, traceback
 import subprocess
 import json
 import requests
@@ -222,6 +222,7 @@ def main():
 		builtwith(site, id, s)
 	except:
 		s.Scan_Completed='Failed'
+		s.Traceback=traceback.format_exc()
 		s.save()
 
 if __name__ == "__main__":
