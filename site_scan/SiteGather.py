@@ -21,7 +21,7 @@ def scan_site(site, id, s):
 	s.SSL_NIST = SSLInfo['nist']['compliant']['value']
 	s.SSL_HIPAA = SSLInfo['hipaa']['compliant']['value']
 	s.SSL_PCI = SSLInfo['pci_dss']['compliant']['value']
-	s.Scan_Completed = 'running'
+	s.Scan_Completed = 'Running'
 	s.save()
 	return 0
 
@@ -130,8 +130,8 @@ def emailhunter(site, id, s):
 	return results
 
 def dns_scan(site, id, s):
-	os.system('dnsrecon -t brt -d %s -n 8.8.8.8 > tempdns.txt' % site)
-	os.system('dnsrecon -t std -d %s -n 8.8.8.8 >> tempdns.txt' % site)
+	os.system('dnsrecon -t brt -d %s > tempdns.txt' % site)
+	os.system('dnsrecon -t std -d %s >> tempdns.txt' % site)
 	with open('tempdns.txt') as f:
 		content = [x.strip('[*]') for x in f.readlines()]
 	content = [x.strip() for x in content]
@@ -177,6 +177,23 @@ def cidr_check(cidr_val, netname_val, id, s):
 			s.arin_set.create(netname=netname_val, cidr=cidr_val)
 			s.save()
 			break
+	return 0
+
+def cidr_brute(cidr, id):
+	from site_scan.models import SiteScan
+	from o_saint import config as cfg
+	s = SiteScan.objects.get(pk=id)
+	os.system('dnsrecon -r %s > tempbrute.txt' % cidr)
+	with open('tempbrute.txt') as f:
+		content = [x.strip('[*]') for x in f.readlines()]
+	content = [x.strip() for x in content]
+	for i, val in enumerate(content):
+		temp_brute = content[i]
+		temp_brute = temp_brute.split(' ')
+		s.dns_set.create(record=temp_dns[0], name=temp_dns[1], address=temp_dns[2])
+		arin_scan(temp_dns[2], id, s)
+	os.system('rm tempbrute.txt')
+	s.save()
 	return 0
 
 def builtwith(site, id, s):

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from site_scan.models import SiteScan, user
 from django.utils import timezone
-from site_scan.SiteGather import scan_site, fullcontact, fullcontact_new
+from site_scan.SiteGather import scan_site, fullcontact, fullcontact_new, cidr_brute
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 import shlex, subprocess
@@ -43,7 +43,7 @@ def search(request):
 		return redirect('o_saint:index')
 
 def history(request):
-	latest_scan_list = SiteScan.objects.order_by('-Scan_Date')[:5]
+	latest_scan_list = SiteScan.objects.order_by('-Scan_Date')[:20]
 	template = loader.get_template('history.html')
 	context = {
 		'latest_scan_list': latest_scan_list,
@@ -79,3 +79,14 @@ def email_detail(request):
 		link = email_val+"_"+str(id)		
 		results = get_object_or_404(user, email=link)
 		return render(request, 'email_detail.html', {'results': results})
+
+def cidr(request):
+	cwd = os.getcwd()
+	cwd = str(cwd)
+	if request.method=='GET':
+		cidr = request.GET.get('cidr_val')
+		id = request.GET.get('id')
+		command = "python3 site_scan/cidr_bruteforce.py %s %s %s" % (cidr, id, cwd)
+		p = subprocess.Popen(command , shell=True, stdout=subprocess.PIPE)
+		scan = get_object_or_404(SiteScan, pk=id)
+		return redirect('/o_saint/%s/' % id)

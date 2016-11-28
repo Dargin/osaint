@@ -23,5 +23,6 @@ urlpatterns = [
 	url(r'^history$', views.history, name = "history"),
 	url(r'^(?P<scan_id>[0-9]+)/$', views.details, name='details'),
 	url(r'^SSL/(?P<scan_id>[0-9]+)/$', views.ssl, name='ssl'),
-	url(r'^email_detail/$',views.email_detail, name='email_detail')
+	url(r'^email_detail/$',views.email_detail, name='email_detail'),
+	url(r'^cidr/$',views.cidr, name='cidr')
 ]

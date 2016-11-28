@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1 align="center" color=blue>{{ scan.Site_Name }}</h1>
-{% if scan.Scan_Completed != "Running" and scan.Scan_Completed != "Completed" %}
+{% if scan.Scan_Completed != "Running" and scan.Scan_Completed != "Completed" and scan.Scan_Completed != "Bruteforce" %}
 <h2 align="center">Scan {{ scan.Scan_Completed }}</h2>
 <h3 align="center">Error: {{ scan.Traceback }}</h3>
 <h3 align="center">Any results captured before the failure are below. Please look at terminal running the server for error</h3>
@@ -13,6 +13,11 @@
 {% elif scan.Scan_Completed == "Running" %}
 <h2 align="center">Scan is {{ scan.Scan_Completed }}</h2>
 <h3 align="center">If scan shows running longer then 30 minutes then something went wrong</h3>
+
+{% elif scan.Scan_Completed == "Bruteforce" %}
+<h2 align="center">CIDR Bruteforce running</h2>
+<h3 align="center">Brute force can take a long time depending on size of CIDR</h3>
+
 {% endif %}
 
 <p id="email"></p>
@@ -183,10 +188,19 @@ h2 { color: #a7e8f8; font-family: 'Julius Sans One', sans-serif; font-size: 22px
 	{% endfor %}
 </ul></td></tr>
 
-<tr class="alt"><td width="30%">Found CIDRs</td>
+<tr class="alt"><td width="30%">PTR Records</td>
+<td><ul>
+	{% for dns in scan.dns_set.all|dictsort:"name" %}
+		{% if dns.record == "PTR" %}
+			<li>{{ dns.name }} {{ dns.address }}</li>
+		{% endif %}
+	{% endfor %}
+</ul></td></tr>
+
+<tr><td width="30%">Found CIDRs</br><font size=1 color="black">Click on one of the CIDRs to perform a brute force of that range. Results will be saved and returned on this page</font></td>
 <td><ul>
 	{% for arin in scan.arin_set.all|dictsort:"netname" %}
-		<li>{{ arin.netname }} {{ arin.cidr }}</li>
+		<li><a href="../cidr/?cidr_val={{ arin.cidr }}&id={{ scan.id }}">{{ arin.netname }} {{ arin.cidr }}</li>
 	{% endfor %}
 </ul>
 </td></tr>
