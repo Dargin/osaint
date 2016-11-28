@@ -179,23 +179,6 @@ def cidr_check(cidr_val, netname_val, id, s):
 			break
 	return 0
 
-def cidr_brute(cidr, id):
-	from site_scan.models import SiteScan
-	from o_saint import config as cfg
-	s = SiteScan.objects.get(pk=id)
-	os.system('dnsrecon -r %s > tempbrute.txt' % cidr)
-	with open('tempbrute.txt') as f:
-		content = [x.strip('[*]') for x in f.readlines()]
-	content = [x.strip() for x in content]
-	for i, val in enumerate(content):
-		temp_brute = content[i]
-		temp_brute = temp_brute.split(' ')
-		s.dns_set.create(record=temp_dns[0], name=temp_dns[1], address=temp_dns[2])
-		arin_scan(temp_dns[2], id, s)
-	os.system('rm tempbrute.txt')
-	s.save()
-	return 0
-
 def builtwith(site, id, s):
 	from o_saint import config as cfg
 	req = requests.get("https://api.builtwith.com/v11/api.json?KEY=%s&LOOKUP=%s" % (cfg.builtwith_api, site))
