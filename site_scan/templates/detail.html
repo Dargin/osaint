@@ -64,7 +64,7 @@ h2 { color: #a7e8f8; font-family: 'Julius Sans One', sans-serif; font-size: 22px
 </br>
 
 <div class="datagrid"><table>
-<thead><tr><th colspan="2" align="center">SSL Information</th></tr></thead>
+<thead><tr><th colspan="2" align="center">SSL Information </th></tr></thead>
 
 <tbody>
 <tr><td width="30%">SSL Hostname</td>
@@ -197,7 +197,7 @@ h2 { color: #a7e8f8; font-family: 'Julius Sans One', sans-serif; font-size: 22px
 	{% endfor %}
 </ul></td></tr>
 
-<tr><td width="30%">Found CIDRs</br><font size=1 color="black">Click on one of the CIDRs to perform a brute force of that range. Results will be saved and returned on this page</font></td>
+<tr><td width="30%">Found CIDRs</br><font size=1 color="black">Click on one of the CIDRs to perform a brute force of that range along with searching Shodan for that net range. Results will be saved and returned on this page</font></td>
 <td><ul>
 	{% for arin in scan.arin_set.all|dictsort:"netname" %}
 		<li><a href="../cidr/?cidr_val={{ arin.cidr }}&id={{ scan.id }}">{{ arin.netname }} {{ arin.cidr }}</li>

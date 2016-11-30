@@ -12,7 +12,8 @@ from time import sleep
 
 
 def scan_site(site, id, s):
-	SSLInfo = check_ssl_htbsecurity(site, id)
+	new_site = 'www.'+site
+	SSLInfo = check_ssl_htbsecurity(new_site, id)
 	s.SSL_Grade = SSLInfo['results']['grade']
 	s.SSL_SName = SSLInfo['server_info']['hostname']['value']
 	s.SSL_IP = SSLInfo['server_info']['ip']['value']

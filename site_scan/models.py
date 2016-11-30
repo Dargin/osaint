@@ -39,7 +39,7 @@ class SiteScan(models.Model):
 	EmailPattern = models.CharField(max_length=50, default=0)
 	EmailsAll = models.CharField(max_length=10000, default=0)
 	Traceback = models.CharField(max_length=10000, default=0)
-	shodan_results = models.CharField(max_length=1000, default="not search")
+	shodan_results = models.CharField(max_length=1000, default="not searched")
 	def __str__(self):
 		return self.Site_Name
 	def was_scanned_recently(self):
