@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from site_scan.models import SiteScan, user
 from django.utils import timezone
-from site_scan.SiteGather import scan_site, fullcontact, fullcontact_new, cidr_brute
+from site_scan.SiteGather import scan_site, fullcontact, fullcontact_new
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 import shlex, subprocess

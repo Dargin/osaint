@@ -39,6 +39,7 @@ class SiteScan(models.Model):
 	EmailPattern = models.CharField(max_length=50, default=0)
 	EmailsAll = models.CharField(max_length=10000, default=0)
 	Traceback = models.CharField(max_length=10000, default=0)
+	shodan_results = models.CharField(max_length=1000, default="not search")
 	def __str__(self):
 		return self.Site_Name
 	def was_scanned_recently(self):
@@ -56,6 +57,15 @@ class DNS(models.Model):
 	record = models.CharField(max_length=10, default=0)
 	name = models.CharField(max_length=50, default=0)
 	address = models.CharField(max_length=50, default=0)
+	def __str__(self):
+		return self.name
+
+class shodandata(models.Model):
+	scan = models.ForeignKey(SiteScan, on_delete=models.CASCADE)
+	IP = models.CharField(max_length=20, default=0)
+	hostnames = models.CharField(max_length=100, default=0)
+	data = models.CharField(max_length=5000, default=0)
+	port = models.CharField(max_length=100, default=0)
 	def __str__(self):
 		return self.name
 

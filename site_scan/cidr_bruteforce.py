@@ -4,6 +4,7 @@ import requests
 import django
 from bs4 import BeautifulSoup
 from django.conf import settings
+from shodan_search import shodan_check
 
 def cidr_brute(cidr, id, s):
 	s.Scan_Completed = 'Bruteforce'
@@ -17,8 +18,7 @@ def cidr_brute(cidr, id, s):
 		temp_brute = temp_brute.split(' ')
 		s.dns_set.create(record=temp_brute[0], name=temp_brute[1], address=temp_brute[2])
 	os.system('rm tempbrute.txt')
-	s.Scan_Completed = 'Completed'
-	s.save()
+	shodan_check(cidr, id, s)
 	return 0
 
 def main():

@@ -3,3 +3,4 @@ requests
 python-whois
 bs4
 beautifulsoup4
+shodan

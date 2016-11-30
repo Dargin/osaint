@@ -25,7 +25,8 @@ OSINT Tool
     fullcontact = https://www.fullcontact.com/developer/docs/</br>
 	Click on "Sign up" and create your account. Once done, got to https://api.fullcontact.com again</br>    
 	Click on "Sign In" then developer portal. activate your account for the API function and get your API key.
-    
+    Shodan = https://www.shodan.io - setup an account, once logged in click "show api key" on the top right of the screen.
+
 8) setup database by running these three commands:</br>
     python3 manage.py migrate</br>
     python3 manage.py makemigrations site_scan</br>

@@ -211,6 +211,24 @@ h2 { color: #a7e8f8; font-family: 'Julius Sans One', sans-serif; font-size: 22px
 </br>
 
 <div class="datagrid"><table>
+<thead><tr><th colspan="2" align="center">Shodan Information</th></tr></thead>
+
+<tbody>
+<tr><td width="30%">Total Results</td>
+<td>{{ scan.shodan_results }}</td></tr>
+
+<tr class="alt"><td width="30%">Details</td>
+<td>	{% for result in scan.shodandata_set.all %}
+		IP: {{ result.IP }}</br>Hostnames: {{ result.hostnames }}</br>Data: {{ result.data }}</br>Port(s): {{ result.port }}</br></br>
+	{% endfor %}
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</br>
+
+<div class="datagrid"><table>
 <thead><tr><th>Site</th>
     <th>Type</th>
     <th>Name</th>
