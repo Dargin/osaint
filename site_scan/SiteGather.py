@@ -61,6 +61,7 @@ def whoischeck(site, id, s):
 	return 0
 
 def fullcontact(email):
+	from o_saint import config as cfg
 	req = requests.get("https://api.fullcontact.com/v2/person.json?email=%s&apiKey=%s" % (email, cfg.fullcontact_api))
 	data = req.json()
 	return data
