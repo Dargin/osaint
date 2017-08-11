@@ -76,7 +76,7 @@ def email_detail(request):
 		email_val = request.GET.get('email')
 		id = request.GET.get('id')
 		fullcontact_new(email_val, id)
-		link = email_val+"_"+str(id)		
+		link = email_val+"_"+str(id)	
 		results = get_object_or_404(user, email=link)
 		return render(request, 'email_detail.html', {'results': results})
 

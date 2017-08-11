@@ -17,7 +17,7 @@ def shodan_check(search, api, s):
 		s.Scan_Completed = 'Completed'
 		s.save()
 	except :
-		s.Scan_Complted = 'Failed'
+		s.Scan_Completed = 'Failed'
 		s.save()
 
 def main():
