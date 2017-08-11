@@ -110,7 +110,7 @@ def fullcontact_new(email_val, id):
 			all_urls = ['']
 			for at in search:
 				e.links_set.create(url="http://www.slideshare.net"+at['href'])
-		e.save()
+		e.save()	
 	return 0	
 
 def emailhunter(site, id, s):
@@ -125,6 +125,7 @@ def emailhunter(site, id, s):
 			link = emailloop['value']+"_"+str(id)
 			s.user_set.create(email=link)
 			e = user.objects.get(email=link)
+			e.status = 0
 			for uriloop in emailloop['sources']:
 				e.links_set.create(url=uriloop['uri'])
 			e.save()
@@ -132,16 +133,20 @@ def emailhunter(site, id, s):
 	return results
 
 def dns_scan(site, id, s):
-	os.system('dnsrecon -t brt -d %s > tempdns.txt' % site)
-	os.system('dnsrecon -t std -d %s >> tempdns.txt' % site)
+	os.system('dnsrecon -t brt -n 8.8.8.8 -d %s > tempdns.txt' % site)
+	os.system('dnsrecon -t std -n 8.8.8.8 -d %s >> tempdns.txt' % site)
 	with open('tempdns.txt') as f:
 		content = [x.strip('[*]') for x in f.readlines()]
-	content = [x.strip() for x in content]
+	content = [x.strip() for x in content if x.strip() != '']
 	for i, val in enumerate(content):
 		temp_dns = content[i]
-		temp_dns = temp_dns.split(' ')
-		s.dns_set.create(record=temp_dns[0], name=temp_dns[1], address=temp_dns[2])
-		arin_scan(temp_dns[2], id, s)
+		if temp_dns.startswith("TXT"):
+			temp_dns = temp_dns.split('TXT', 1)
+			s.dns_set.create(record=temp_dns[0], name=temp_dns[1])
+		else:
+			temp_dns = temp_dns.split(' ')
+			s.dns_set.create(record=temp_dns[0], name=temp_dns[1], address=temp_dns[2])
+			arin_scan(temp_dns[2], id, s)
 	os.system('rm tempdns.txt')
 	s.save()
 	return 0

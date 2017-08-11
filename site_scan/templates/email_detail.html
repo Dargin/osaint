@@ -3,9 +3,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<META HTTP-EQUIV="refresh" CONTENT="15">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
 </head>
 <body>
+
+<h1 align="center" color=blue>{{ results.email }}</h1>
+{% if results.status == "0" %}
+
+<h2 align="center">Please wait while scan runs</h2>
+
+{% endif %}
 
 <style type="text/css">
 .datagrid table { border-collapse: collapse; text-align: left; width: 100%; } 
