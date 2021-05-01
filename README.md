@@ -1,4 +1,5 @@
 # o-saint
+# Will be deprecating this, working on a new tool :)
 OSINT Tool
 
 1) Install python 3</br>
